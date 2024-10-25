@@ -7,14 +7,6 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 
-
-COLORS = {
-    "danger": "#fc3f00",  # Rojo para peligro
-    "caution": "#f7d547",  # Amarillo para precaución
-    "normal": "#72cb10",   # Verde para normal
-    "default": None        # Sin color por defecto
-}
-
 def clear(x_entries, y_entries, z_entries, graph_window=None):
     """Limpia los campos de entrada y cierra la ventana del gráfico si existe."""
     for entry in x_entries:
@@ -27,7 +19,6 @@ def clear(x_entries, y_entries, z_entries, graph_window=None):
     # Cerrar la ventana del gráfico si se ha pasado
     if graph_window:
         graph_window.destroy()
-
 
 def process_entries(x_entries, y_entries, z_entries):
     """Procesa las entradas y muestra las columnas de puntos."""
@@ -143,7 +134,7 @@ def new_window():
                     p2 = points[j]
                     distance = math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
                     distances.append(distance)
-                    labels.append(f"AERONAVE {i + 1} - AERONAVE {j + 1}")  # Etiqueta de distancia
+                    labels.append(f"A {i + 1} - A {j + 1}")  # Etiqueta de distancia
 
         # Crear una nueva ventana para mostrar las etiquetas
         result_window = tk.Toplevel(main_window)
@@ -159,20 +150,18 @@ def new_window():
         right_frame.pack(side='right', padx=10)
 
         for i, distance in enumerate(distances):
-            color = ""  # Color por defecto
+            color = "green"  # Color por defecto
             if distance <= 9:
-                color = COLORS["danger"]  # Peligro
+                color = "red"   # Peligro
             elif distance <= 15:
-                color = COLORS["caution"]  # Precaución
+                color = "yellow"  # Precaución
             elif distance > 20:
-                color = COLORS["normal"]  # Normal
-            else:
-                color = COLORS["default"]
+                color = "green"  # Normal
 
             # Crear un label para cada distancia en su propio frame
             label_frame = left_frame if i % 2 == 0 else right_frame
 
-            label = tk.Label(label_frame, text=f"{labels[i]}: {distance:.2f} km", bg=color, fg="black", width=35)
+            label = tk.Label(label_frame, text=f"{labels[i]}: {distance:.2f} km", bg=color, fg="black", width=20)
             label.pack(fill='x')
 
         # Botón para generar gráfico
