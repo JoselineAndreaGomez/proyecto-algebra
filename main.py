@@ -7,6 +7,14 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 
+
+COLORS = {
+    "danger": "#fc3f00",  # Rojo para peligro
+    "caution": "#f7d547",  # Amarillo para precaución
+    "normal": "#72cb10",   # Verde para normal
+    "default": None        # Sin color por defecto
+}
+
 def clear(x_entries, y_entries, z_entries, graph_window=None):
     """Limpia los campos de entrada y cierra la ventana del gráfico si existe."""
     for entry in x_entries:
@@ -19,6 +27,7 @@ def clear(x_entries, y_entries, z_entries, graph_window=None):
     # Cerrar la ventana del gráfico si se ha pasado
     if graph_window:
         graph_window.destroy()
+
 
 def process_entries(x_entries, y_entries, z_entries):
     """Procesa las entradas y muestra las columnas de puntos."""
@@ -150,13 +159,15 @@ def new_window():
         right_frame.pack(side='right', padx=10)
 
         for i, distance in enumerate(distances):
-            color = "green"  # Color por defecto
+            color = ""  # Color por defecto
             if distance <= 9:
-                color = "red"   # Peligro
+                color = COLORS["danger"]  # Peligro
             elif distance <= 15:
-                color = "yellow"  # Precaución
+                color = COLORS["caution"]  # Precaución
             elif distance > 20:
-                color = "green"  # Normal
+                color = COLORS["normal"]  # Normal
+            else:
+                color = COLORS["default"]
 
             # Crear un label para cada distancia en su propio frame
             label_frame = left_frame if i % 2 == 0 else right_frame
@@ -187,7 +198,7 @@ def new_window():
 
         # Agregar etiquetas con el número de cada aeronave
         for i, (x, y) in enumerate(zip(x_coords, y_coords)):
-            plt.text(x, y, f'Aeronave {i + 1}', fontsize=9, ha='right', va='bottom')
+            plt.text(x, y, f'A {i + 1}', fontsize=9, ha='right', va='bottom')
 
         plt.show()
 
